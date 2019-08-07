@@ -1,0 +1,1 @@
+console.log('Para ejecutar escribir: npm test')
