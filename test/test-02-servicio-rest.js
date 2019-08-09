@@ -5,15 +5,18 @@ Testing de servicios REST
 
 Para hacer solicitudes HTTP vamos a usar *Axios*, un cliente HTTP
 para NodeJs muy fácil de usar.
-https://github.com/axios/axios
+Documentaci{on en https://github.com/axios/axios
 
 \******************************************************************/
 
 
-/** Algunas constantes útiles **/
+/*
+ * Algunas constantes útiles. Las ponemos acá arriba para que sea
+ *  más fácil encontrarlas al momento de necesitar modificarlas
+ */
 
-// Dirección base del servicio que queremos probar
-const SERVICE_URL = 'https://rocky-hollows-48010.herokuapp.com/'
+ // Dirección base del servicio que queremos probar
+const SERVICE_URL = 'https://enargas-qa.herokuapp.com/'
 // Límite de tiempo sin respuesta antes de considerar que hubo un fallo
 const TIMEOUT = 10000 // 10 segundos
 
@@ -27,6 +30,8 @@ const { expect } = require('chai')
 
 // Incluimos Axios para hacer solicitudes HTTP
 const axios = require('axios')
+// Esta forma de inicializar Axios me sirve para no tener que escribir la
+// primera parte de la URL cada vez
 const http = axios.create({ baseURL: SERVICE_URL, timeout: TIMEOUT })
 
 
@@ -45,14 +50,14 @@ describe('Ejemplos de pruebas contra servicios REST', function() {
     // nuestros tests son llamadas asincrónicas. Esto es cuando
     // incluyen operaciones como: acceso a archivos, conexiones
     // a servidores o a bases de datos, etc. Esto nos permite
-    // usar la palabra clave `await`.
+    // usar la palabra clave `await` dentro del test.
     it('El servicio GET /personas devuelve una lista con 0 o más personas', async function() {
 
         // ⚠️ `await` es imprescindible acá para esperar la respuesta
         // del servicio  👇👇
         const respuesta = await http.get('/personas')
 
-        // "Se espera que el status de la respuesta sea OK"
+        // "Se espera que el status de la respuesta sea OK (o sea, 200)"
         expect(respuesta.status).to.be.equal(OK)
 
         const personas = respuesta.data
